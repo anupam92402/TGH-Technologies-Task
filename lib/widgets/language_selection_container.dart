@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tgh_technologies_task/provider/language_provider.dart';
 import 'package:tgh_technologies_task/util/colors.dart';
 
 class LanguageSelectionContainer extends StatelessWidget {
-  const LanguageSelectionContainer({
-    super.key,
-  });
+  final String source;
+
+  const LanguageSelectionContainer({required this.source});
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<LanguageProvider>(context);
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -24,36 +27,60 @@ class LanguageSelectionContainer extends StatelessWidget {
                 topLeft: Radius.circular(32), topRight: Radius.circular(32)),
           ),
           builder: (BuildContext context) {
-            return SizedBox(
-              child: ListView(
-                padding: EdgeInsets.all(24),
-                children: [
-                  Text(
-                    'From',
-                    style: TextStyle(fontSize: 16, color: AllColors.lightGrey),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    'All Languages',
-                    style: TextStyle(fontSize: 16, color: AllColors.lightGrey),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                        color: AllColors.darkGrey,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Text(
-                      'Germany',
-                      style: TextStyle(fontSize: 16, color: AllColors.lightGrey),
+            return ListView(
+              padding: EdgeInsets.all(24),
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'From',
+                      style:
+                          TextStyle(fontSize: 16, color: AllColors.lightGrey),
                     ),
-                  )
-                ],
-              ),
+                    SizedBox(height: 16),
+                    Text(
+                      'All Languages',
+                      style:
+                          TextStyle(fontSize: 16, color: AllColors.lightGrey),
+                    ),
+                    SizedBox(height: 24),
+                    ListView.builder(
+                      shrinkWrap: true,
+
+                      // Important: Set shrinkWrap to true
+                      physics: NeverScrollableScrollPhysics(),
+                      // Disable scrolling of the inner ListView
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (source == 'from') {
+                              provider.from = provider.list[index];
+                            } else {
+                              provider.to = provider.list[index];
+                            }
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 8),
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AllColors.darkGrey,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              provider.list[index],
+                              style: TextStyle(
+                                  fontSize: 16, color: AllColors.lightGrey),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: provider.list.length,
+                    ),
+                  ],
+                ),
+              ],
             );
           },
         );
@@ -66,9 +93,11 @@ class LanguageSelectionContainer extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Germany',
+            source == 'from' ? provider.from : provider.to,
             style: TextStyle(
-                color: AllColors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                color: AllColors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16),
           ),
         ),
       ),

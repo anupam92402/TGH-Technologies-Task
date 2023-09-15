@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tgh_technologies_task/provider/language_provider.dart';
 import 'package:tgh_technologies_task/util/colors.dart';
 import '../widgets/language_selection_container.dart';
 
@@ -10,6 +12,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    var provider = context.read<LanguageProvider>();
+    provider.getLanguagesList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: LanguageSelectionContainer()),
+                Expanded(child: LanguageSelectionContainer(source: 'from',)),
                 SizedBox(
                   width: 12,
                 ),
@@ -45,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 12,
                 ),
-                Expanded(child: LanguageSelectionContainer()),
+                Expanded(child: LanguageSelectionContainer(source: 'to')),
               ],
             ),
             SizedBox(
@@ -96,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(color: Colors.grey),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-
                           ),
                         ),
                       ),
@@ -104,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Divider(color: AllColors.dividerColor,),
+                        Divider(
+                          color: AllColors.dividerColor,
+                        ),
                         Text(
                           // '${_textEditingController.text.length}/${2300}', // Display character count
                           '198/${2300}', // Display character count
@@ -166,7 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(color: Colors.grey),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-
                           ),
                         ),
                       ),
@@ -174,7 +183,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Divider(color: AllColors.dividerColor,),
+                        Divider(
+                          color: AllColors.dividerColor,
+                        ),
                         Text(
                           // '${_textEditingController.text.length}/${2300}', // Display character count
                           '198/${2300}', // Display character count
