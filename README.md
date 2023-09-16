@@ -1,16 +1,32 @@
-# tgh_technologies_task
+# TGH Technologies Task
 
-A new Flutter project.
+This respository contains the task given by TGH Technologies for assesment. This app is a google translator app converting the user text from source language to target language.
 
-## Getting Started
+Since api gives only language code and not language, therefore displaying the list of language code.
 
-This project is a starting point for a Flutter application.
+Created using:- 
 
-A few resources to get you started if this is your first Flutter project:
+-Dart
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+-Flutter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-http
+
+-provider
+
+
+APK Link:- https://drive.google.com/file/d/1vMHX9LUoh5bFQLOJ_MNEfOX5r_DHYNeh/view?usp=sharing
+
+# Screenshots of the project
+
+<img src="https://drive.google.com/uc?export=view&id=1_eOi-mfQmdhSaR6KmjJIfZbLgrbXr_Lt" alt="Image Alt Text" width="270" height="500">
+
+
+
+
+
+
+
+
+
+****
