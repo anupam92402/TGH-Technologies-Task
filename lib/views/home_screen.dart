@@ -12,38 +12,57 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController? _textController;
+  TextEditingController? _textReceivedController;
+
   @override
   void initState() {
     super.initState();
     var provider = context.read<LanguageProvider>();
     provider.getLanguagesList();
+    _textController = TextEditingController(text: provider.text);
+    _textReceivedController =
+        TextEditingController(text: provider.translatedText);
+  }
+
+  @override
+  void dispose() {
+    _textController?.dispose();
+    _textReceivedController?.dispose();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<LanguageProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AllColors.darkGrey,
         body: ListView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           children: [
-            Text(
+            const Text(
               'Text Translation',
               style: TextStyle(fontSize: 20, color: AllColors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Divider(
               color: AllColors.dividerColor,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: LanguageSelectionContainer(source: 'from',)),
+                Expanded(
+                    child: LanguageSelectionContainer(
+                  source: 'from',
+                )),
                 SizedBox(
                   width: 12,
                 ),
@@ -57,13 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(child: LanguageSelectionContainer(source: 'to')),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Translate From ',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -71,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12),
                   ),
                   TextSpan(
-                    text: '(Germany)',
-                    style: TextStyle(
+                    text: provider.from,
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AllColors.lightGrey,
                         fontSize: 14),
@@ -80,12 +99,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Container(
               height: 170, // Fixed height
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AllColors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
@@ -96,16 +115,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: BoxConstraints(maxHeight: 100),
+                      constraints: const BoxConstraints(maxHeight: 100),
                       child: SingleChildScrollView(
                         child: TextField(
-                          // controller: _textEditingController,
-                          maxLines: null, // Makes the text field scrollable
+                          controller: _textController,
+                          maxLines: null,
+                          // Makes the text field scrollable
                           keyboardType: TextInputType.multiline,
-                          style: TextStyle(color: Colors.grey),
-                          decoration: InputDecoration(
+                          style: const TextStyle(color: Colors.grey),
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (value) {
+                            provider.text = value;
+                          },
                         ),
                       ),
                     ),
@@ -117,8 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Text(
                           // '${_textEditingController.text.length}/${2300}', // Display character count
-                          '198/${2300}', // Display character count
-                          style: TextStyle(
+                          '${provider.text.length}/${2300}',
+                          // Display character count
+                          style: const TextStyle(
                             color: Colors.grey,
                           ),
                         ),
@@ -128,13 +152,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Translate To ',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -142,8 +166,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12),
                   ),
                   TextSpan(
-                    text: '(Germany)',
-                    style: TextStyle(
+                    text: provider.to,
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AllColors.lightGrey,
                         fontSize: 14),
@@ -151,12 +175,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Container(
               height: 170, // Fixed height
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AllColors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
@@ -167,15 +191,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: BoxConstraints(maxHeight: 100),
+                      constraints: const BoxConstraints(maxHeight: 100),
                       child: SingleChildScrollView(
                         child: TextField(
-                          // controller: _textEditingController,
-                          maxLines: null, // Makes the text field scrollable
+                          controller: _textReceivedController,
+                          maxLines: null,
+                          // Makes the text field scrollable
                           keyboardType: TextInputType.multiline,
-                          style: TextStyle(color: Colors.grey),
+                          style: const TextStyle(color: Colors.grey),
                           decoration: InputDecoration(
                             border: InputBorder.none,
+                            hintText: provider.translatedText,
                           ),
                         ),
                       ),
@@ -187,9 +213,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: AllColors.dividerColor,
                         ),
                         Text(
-                          // '${_textEditingController.text.length}/${2300}', // Display character count
-                          '198/${2300}', // Display character count
-                          style: TextStyle(
+                          // Display character count
+                          '${provider.translatedText.length}/${2300}',
+                          // Display character count
+                          style: const TextStyle(
                             color: Colors.grey,
                           ),
                         ),
@@ -199,6 +226,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextButton(
+                onPressed: () => provider.translateText(),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(const Color(0xff232527))),
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: AllColors.textColor,
+                      fontSize: 16),
+                ))
           ],
         ),
       ),

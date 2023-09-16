@@ -6,7 +6,7 @@ import 'package:tgh_technologies_task/util/colors.dart';
 class LanguageSelectionContainer extends StatelessWidget {
   final String source;
 
-  const LanguageSelectionContainer({required this.source});
+  const LanguageSelectionContainer({super.key, required this.source});
 
   @override
   Widget build(BuildContext context) {
@@ -22,34 +22,34 @@ class LanguageSelectionContainer extends StatelessWidget {
           //elevates modal bottom screen
           elevation: 10,
           // gives rounded corner to modal bottom screen
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(32), topRight: Radius.circular(32)),
           ),
           builder: (BuildContext context) {
             return ListView(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'From',
+                      source.toUpperCase(),
                       style:
-                          TextStyle(fontSize: 16, color: AllColors.lightGrey),
+                          const TextStyle(fontSize: 16, color: AllColors.lightGrey),
                     ),
-                    SizedBox(height: 16),
-                    Text(
+                    const SizedBox(height: 16),
+                    const Text(
                       'All Languages',
                       style:
                           TextStyle(fontSize: 16, color: AllColors.lightGrey),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     ListView.builder(
                       shrinkWrap: true,
 
                       // Important: Set shrinkWrap to true
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       // Disable scrolling of the inner ListView
                       itemBuilder: (context, index) {
                         return GestureDetector(
@@ -62,15 +62,15 @@ class LanguageSelectionContainer extends StatelessWidget {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            padding: EdgeInsets.all(12),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: AllColors.darkGrey,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
                               provider.list[index],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16, color: AllColors.lightGrey),
                             ),
                           ),
@@ -86,7 +86,7 @@ class LanguageSelectionContainer extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
           color: AllColors.grey,
           borderRadius: BorderRadius.circular(12),
@@ -94,7 +94,7 @@ class LanguageSelectionContainer extends StatelessWidget {
         child: Center(
           child: Text(
             source == 'from' ? provider.from : provider.to,
-            style: TextStyle(
+            style: const TextStyle(
                 color: AllColors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 16),

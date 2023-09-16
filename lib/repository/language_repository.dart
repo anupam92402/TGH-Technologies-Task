@@ -16,4 +16,19 @@ class LanguageRepo {
     }
     return languageList;
   }
+
+  Future<String> translateText(
+      {required String text,
+        required String sourceLang,
+        required String targetLang}) async {
+    try {
+      text = await _apiService.translateText(text: text, sourceLang: sourceLang, targetLang: targetLang);
+
+      log("${LanguageRepo().runtimeType} data received is:- $text");
+    } catch (e) {
+      log(e.toString());
+    }
+    return text;
+
+  }
 }
